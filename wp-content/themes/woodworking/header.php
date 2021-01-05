@@ -38,6 +38,6 @@ Released   : 20110708
 				<li><a href="#">Photos</a></li>
 				<li><a href="#">About</a></li>
 				<li><a href="#">Links</a></li>
-				<li><a href="#">Contact</a></li>
+				<li><a href="#">Contact Us</a></li>
 			</ul> -->
 		</div>
