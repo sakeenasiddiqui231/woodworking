@@ -1,5 +1,6 @@
 <?php    
- 
+ add_theme_support( 'post-thumbnails' );
+
 //code for theme styling
 function add_style() {
     wp_enqueue_style( 'style', get_stylesheet_uri() );//wp_enque_style->hook;
@@ -314,11 +315,42 @@ function custom_post_type() {
 				'rewrite'           => [ 'slug' => 'portfolio' ],
 			);
 			register_taxonomy( 'portfolio', [ 'portfolio' ], $args );
+
 	   }
 	   add_action( 'init', 'wporg_register_taxonomy_Portfolio' );
 
 
+	   // $res = get_post_type("portfolio");
+	   // print_r($res);
+	   // die;
+// function tittle_name( $title) {
+ 
+ 
+//     return $title." sakeena ";
+// }
+// add_filter( 'the_title', 'tittle_name',20 );
 
+// function tittle_name1( $title) {
+ 
+//  $args = array(
+//       'public'   => true,
+//         '_builtin' => false,
+//       );
+  
+//       $output = 'names'; // names or objects, note names is the default
+//       $operator = 'or'; // 'and' or 'or'
+  
+//       $post_types = get_post_types( $args, $output, $operator ); 
+//       print_r($post_types);
+//       die;
 
-		
+ 
+//     return $title." siddiqui ";
+// }
+
+  
+// add_filter( 'the_title', 'tittle_name1',9);
+
+	   
+	
 ?>

@@ -1,13 +1,11 @@
 <?php
 /*
 Plugin Name: Woodworking Plugin
-Plugin URI: 
-Description: Used by millions, Akismet is quite possibly the best way in the world to <strong>protect your blog from spam</strong>. It keeps your site protected even while you sleep. To get started: activate the Akismet plugin and then go to your Akismet Settings page to set up your API key.
-Version: 0.1
+Version: 1.0.0
 Author: Sakeena Siddiqui
-Author URI: https://automattic.com/wordpress-plugins/
+Author URI: https://cedcommerce.com/wordpress-plugins/
 License: GPLv2 or later
-Text Domain: woodworking
+Text Domain: cedwoodworking
 */
    
       global $wpdb;
@@ -53,12 +51,22 @@ Text Domain: woodworking
     
 
 add_action("admin_menu", "addMenu");
+/**
+ * addMenu
+ *
+ * @return void
+ */
 function addMenu()
 {
     add_menu_page("Woodworking", "Woodworking", 'manage_options', "example-options", "woodMenu");
     add_submenu_page("example-options", "option 1", "option 1",'manage_options', "example-option-1", "option1");
     add_submenu_page("example-options", "Admin", "Admin",'manage_options', "example-option-2", "custom_meta_box");
 }
+/**
+ * woodMenu
+ *
+ * @return void
+ */
 function woodMenu()
 {
     //echo "Hello Woodworking";
@@ -303,17 +311,17 @@ $post_type = get_post_type($id);
   <?php endif;?>
   <?php
   echo '</ul>';
-  // wp_reset_postdata();
-  // } else {
-  // echo '<p style="padding:25px;"></p>';
-  // }
-  //echo $args['after_widget'];
-  // }
-
+ 
   
 }
         
-  // Widget Backend 
+  // Widget Backend   
+  /**
+   * form
+   *
+   * @param  mixed $instance
+   * @return void
+   */
   public function form( $instance ) {
 
   if ( isset( $instance[ 'title' ] ) ) {
@@ -350,7 +358,14 @@ $post_type = get_post_type($id);
   <?php 
   }
 }   
-  // Updating widget replacing old instances with new
+  // Updating widget replacing old instances with new  
+  /**
+   * update
+   *
+   * @param  mixed $new_instance
+   * @param  mixed $old_instance
+   * @return void
+   */
   public function update( $new_instance, $old_instance ) {
   $instance = array();
   $instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
@@ -361,20 +376,22 @@ $post_type = get_post_type($id);
   }  
   // Class wpb_widget ends here
   }   
-  // Register and load the widget
+  
+  /**
+   * wpb_custom_widget
+   *function for registering the widget
+   * @return void
+   */
   function wpb_custom_widget() {
     register_widget( 'custom_widget' );
   }
   add_action( 'widgets_init', 'wpb_custom_widget' );
 
-
-
-
-
  // Adding a Metabox
  class custom_metabox{
   public static function custom_box() {
-    $screens = [ 'post', 'wporg_cpt' ];
+    $res = get_option('sid_sid');
+    $screens = [ $res, 'wporg_cpt' ];
     foreach ( $screens as $screen ) {
         add_meta_box(
             'wporg_box_id',                 // Unique ID
@@ -388,6 +405,12 @@ $post_type = get_post_type($id);
 }
 
 //Html for metabox
+/**
+ * custom_box_html
+ *custom_box_html for creating a html input field
+ * @param  mixed $post
+ * @return void
+ */
 public static function custom_box_html( $post ) {
   ?>
   <label for="wporg_field"></label>
@@ -399,6 +422,12 @@ public static function custom_box_html( $post ) {
 // echo($eid);
 // die;
 
+/**
+ * save
+ *sava function for saving the value of meta box
+ * @param  mixed $post_id
+ * @return void
+ */
 public static function save( int $post_id ) {
 
   if ( array_key_exists( 'colorname', $_POST ) ) {     
@@ -415,9 +444,14 @@ add_action('add_meta_boxes',['custom_metabox', 'custom_box']);
 add_action('save_post', ['custom_metabox', 'save']);
 
 
+/**
+ * custom_meta_box
+ *custom meta box that display all post type and display only checked post type on front end
+ * @return void
+ */
 function custom_meta_box(){?>
   <html>
-  <h1>All Post Types</h1><?php
+  <h1><?php _e('All Post Types', 'cedwoodworking'); ?></h1><?php
   $args = array(
       'public'   => true,
         '_builtin' => false,
@@ -450,7 +484,7 @@ function custom_meta_box(){?>
          
       <?php 
       endforeach;?>
-      <input type="submit"  value="submit" name="wood">
+      <input type="submit"  value="<?php _e('Submit','cedwoodworking');?>" name="wood">
       </form>
       <?php
 }
@@ -460,19 +494,29 @@ function custom_meta_box(){?>
 
 if(isset($_POST['wood'])){
   $choice=$_POST['post_choice'];
-  update_option( 'custom_meta_box', $choice);
+  update_option( 'sid_sid', $choice);
 
   function my_update_notice() {
       ?>
           <div class="notice notice-success">
-              <p><?php _e( 'The update completed successfully!', 'my-text-domain' ); ?></p>
+              <p><?php _e( 'The update completed successfully!', 'cedwoodworking' ); ?></p>
           </div>
       <?php
       }   
   
-  if( ! empty( get_option( 'custom_meta_box' ) ) ) {
+  if( ! empty( get_option( 'sid_sid' ) ) ) {
       add_action( 'admin_notices', 'my_update_notice' );
   }
 }
+
+
+// add_filter( 'cron_schedules', 'add_cron' );
+// function add_cron( $schedules ) { 
+//     $schedules['five_seconds'] = array(
+//         'interval' => 5,
+//         'display'  => esc_html__( 'Every Five Seconds' ), );
+//     print_r($schedules) ;
+//     die;
+// }
 
 ?>

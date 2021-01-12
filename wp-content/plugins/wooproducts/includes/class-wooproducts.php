@@ -9,8 +9,8 @@
  * @link       https://cedcoss.com/
  * @since      1.0.0
  *
- * @package    Wooboiler
- * @subpackage Wooboiler/includes
+ * @package    Wooproducts
+ * @subpackage Wooproducts/includes
  */
 
 /**
@@ -23,11 +23,11 @@
  * version of the plugin.
  *
  * @since      1.0.0
- * @package    Wooboiler
- * @subpackage Wooboiler/includes
- * @author     cedcoss <cedcoss@gmail.com>
+ * @package    Wooproducts
+ * @subpackage Wooproducts/includes
+ * @author     Cedcoss <cedcoss@gmail.com>
  */
-class Wooboiler {
+class Wooproducts {
 
 	/**
 	 * The loader that's responsible for maintaining and registering all hooks that power
@@ -35,7 +35,7 @@ class Wooboiler {
 	 *
 	 * @since    1.0.0
 	 * @access   protected
-	 * @var      Wooboiler_Loader    $loader    Maintains and registers all hooks for the plugin.
+	 * @var      Wooproducts_Loader    $loader    Maintains and registers all hooks for the plugin.
 	 */
 	protected $loader;
 
@@ -67,12 +67,12 @@ class Wooboiler {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-		if ( defined( 'WOOBOILER_VERSION' ) ) {
-			$this->version = WOOBOILER_VERSION;
+		if ( defined( 'WOOPRODUCTS_VERSION' ) ) {
+			$this->version = WOOPRODUCTS_VERSION;
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'wooboiler';
+		$this->plugin_name = 'wooproducts';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -86,10 +86,10 @@ class Wooboiler {
 	 *
 	 * Include the following files that make up the plugin:
 	 *
-	 * - Wooboiler_Loader. Orchestrates the hooks of the plugin.
-	 * - Wooboiler_i18n. Defines internationalization functionality.
-	 * - Wooboiler_Admin. Defines all hooks for the admin area.
-	 * - Wooboiler_Public. Defines all hooks for the public side of the site.
+	 * - Wooproducts_Loader. Orchestrates the hooks of the plugin.
+	 * - Wooproducts_i18n. Defines internationalization functionality.
+	 * - Wooproducts_Admin. Defines all hooks for the admin area.
+	 * - Wooproducts_Public. Defines all hooks for the public side of the site.
 	 *
 	 * Create an instance of the loader which will be used to register the hooks
 	 * with WordPress.
@@ -103,33 +103,33 @@ class Wooboiler {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wooboiler-loader.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wooproducts-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wooboiler-i18n.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-wooproducts-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wooboiler-admin.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-wooproducts-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wooboiler-public.php';
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wooproducts-public.php';
 
-		$this->loader = new Wooboiler_Loader();
+		$this->loader = new Wooproducts_Loader();
 
 	}
 
 	/**
 	 * Define the locale for this plugin for internationalization.
 	 *
-	 * Uses the Wooboiler_i18n class in order to set the domain and to register the hook
+	 * Uses the Wooproducts_i18n class in order to set the domain and to register the hook
 	 * with WordPress.
 	 *
 	 * @since    1.0.0
@@ -137,7 +137,7 @@ class Wooboiler {
 	 */
 	private function set_locale() {
 
-		$plugin_i18n = new Wooboiler_i18n();
+		$plugin_i18n = new Wooproducts_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'load_plugin_textdomain' );
 
@@ -152,26 +152,20 @@ class Wooboiler {
 	 */
 	private function define_admin_hooks() {
 
-		$plugin_admin = new Wooboiler_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_admin = new Wooproducts_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
-		$this->loader->add_action('admin_menu', $plugin_admin, "addBoilermenu");
-		$this->loader->add_action('add_meta_boxes',$plugin_admin, 'brand_custom_box');
-		$this->loader->add_action('save_post', $plugin_admin, 'brand_save');
+		$this->loader->add_action( 'init', $plugin_admin, 'activate_myplugin' );
+		$this->loader->add_action('add_meta_boxes',$plugin_admin, 'inventry_custom_box');
+		$this->loader->add_action('save_post', $plugin_admin, 'inventry_save');
+		$this->loader->add_action('add_meta_boxes',$plugin_admin, 'pricing_custom_box');
+		$this->loader->add_action('save_post', $plugin_admin, 'pricing_save');
+		$this->loader->add_action( 'init', $plugin_admin, 'register_taxonomy_Products' );
+
 		
-		$this->loader->add_filter( 'manage_edit-post_columns',$plugin_admin,  'add_new_columns' );
-		$this->loader->add_filter( 'manage_edit-post_sortable_columns',$plugin_admin, 'register_sortable_columns' );
-		$this->loader->add_filter( 'request', $plugin_admin, 'brand_column_orderby' );
-		$this->loader->add_action( 'manage_posts_custom_column' , $plugin_admin, 'custom_columns' );
-		//add_action( 'admin_notices', 'sample_admin_notice__success' );
 
-		$this->loader->add_action('wp_ajax_js_add_like',  $plugin_admin, 'add_meta');
-		$this->loader->add_action( 'widgets_init', $plugin_admin,'wpb_custom_notification' );
-
-		$this->loader->add_action('init',  $plugin_admin, 'post_type');
-		//$this->loader->add_action('wp_enqueue_scripts', $plugin_admin, 'enqueue_jquery_metabox');
-
+		 
 	}
 
 	/**
@@ -183,10 +177,11 @@ class Wooboiler {
 	 */
 	private function define_public_hooks() {
 
-		$plugin_public = new Wooboiler_Public( $this->get_plugin_name(), $this->get_version() );
+		$plugin_public = new Wooproducts_Public( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		$this->loader->add_action('template_include', $plugin_public, 'page_direct_to_single');
 
 	}
 
@@ -214,7 +209,7 @@ class Wooboiler {
 	 * The reference to the class that orchestrates the hooks with the plugin.
 	 *
 	 * @since     1.0.0
-	 * @return    Wooboiler_Loader    Orchestrates the hooks of the plugin.
+	 * @return    Wooproducts_Loader    Orchestrates the hooks of the plugin.
 	 */
 	public function get_loader() {
 		return $this->loader;

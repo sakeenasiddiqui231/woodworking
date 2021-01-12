@@ -1,4 +1,4 @@
-<?php //die("ahsggdyyeki");?>
+  <?php die("ahsggdyyeki");?>
 <?php  get_header(); ?>
 		<!-- end #menu -->
 		<div id="page">
