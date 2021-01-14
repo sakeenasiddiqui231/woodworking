@@ -29,4 +29,57 @@
 	 * practising this, we should strive to set a better example in our own work.
 	 */
 
+
+	// function openForm() {
+	// 	document.getElementById("myForm").style.display = "block";
+	//   }
+	  
+	//   function closeForm() {
+	// 	document.getElementById("myForm").style.display = "none";
+	//   }
+
+
+	$(document).ready(function(){
+        $('input[type="checkbox"]').click(function(){
+            if($(this).is(":checked")){
+				
+
+				
+					var first_name = $('#firstname').val();
+					var last_name = $('#lastname').val();					
+					var country =$('#country').val();
+					var street = $('#street').val();
+					var town_city =$('#town_city').val();
+					var pincode = $('#pincode').val();
+					var phone_number = $('#phone_number').val();
+					var email = $('#email').val();
+
+
+					$('#f_name').val(first_name);
+					$('#l_name').val(last_name);
+					$('#country_name').val(country);
+					$('#street_name').val(street);
+					$('#town_city_name').val(town_city);
+					$('#pincode_number').val(pincode);
+					$('#p_number').val(phone_number);
+					$('#user_email').val(email);
+					// alert("hello");
+            }
+            
+		});
+		
+		$("#add_cart").click(function()
+		{
+		alert("Product added successfully");
+		});
+
+
+
+	});
+	
+
+
+
+
+
 })( jQuery );

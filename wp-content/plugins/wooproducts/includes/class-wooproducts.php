@@ -162,6 +162,7 @@ class Wooproducts {
 		$this->loader->add_action('add_meta_boxes',$plugin_admin, 'pricing_custom_box');
 		$this->loader->add_action('save_post', $plugin_admin, 'pricing_save');
 		$this->loader->add_action( 'init', $plugin_admin, 'register_taxonomy_Products' );
+		$this->loader->add_action('admin_menu', $plugin_admin, "product_table_menu");
 
 		
 
@@ -182,6 +183,7 @@ class Wooproducts {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 		$this->loader->add_action('template_include', $plugin_public, 'page_direct_to_single');
+		// $this->loader->register_activation_hook( __FILE__, 'custom_checkout_table' );
 
 	}
 

@@ -299,6 +299,30 @@ class Wooproducts_Admin {
 		register_taxonomy( 'customposttype', [ 'customposttype' ], $args );
 
    }
+   
+   /**
+    * product_table_menu
+	*function to create menu for showing placed orders
+	*@since 1.0
+	* @version 1.0.0
+    * @return void
+    */
+   public function product_table_menu()
+    {
+        add_menu_page(
+            "Orders_placed",
+            "Orders_placed",
+            'manage_options',
+            "example-top-options",
+            [$this, 'products_order']
+        );
+        // add_submenu_page("example-top-options", "BoilerAdmin", "BoilerAdmin",'manage_options', "example-option-2", "option2");
+	}
+	
+	public function products_order()
+	{
+		die("hello");
+	}
   
 
    
